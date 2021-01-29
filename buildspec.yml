@@ -1,0 +1,16 @@
+version: 0.2
+phases:
+  pre_build:
+    commands:
+      - npm install -g gatsby
+  build:
+    commands:
+      - cp .env.example .env
+      - npm install
+      - gatsby build
+      - echo "******** Cleaning S3 objects ********"
+      - aws s3 rm $S3_BUCKET --recursive
+artifacts:
+  files:
+    - '**/*'
+  base-directory: public
